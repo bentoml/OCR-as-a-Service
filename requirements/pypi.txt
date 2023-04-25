@@ -1,0 +1,14 @@
+# Install bentoml from main atm because there is a serve bug for gRPC
+git+https://github.com/bentoml/bentoml.git
+torch>=2.0
+easyocr
+git+https://github.com/facebookresearch/detectron2.git
+timm
+fvcore
+pdf2image
+pydantic
+Pillow
+protobuf<4.0dev
+grpcio
+grpcio-health-checking
+requests

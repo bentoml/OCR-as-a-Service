@@ -1,0 +1,23 @@
+service: 'service.py:svc'
+name: document-processing
+labels:
+  owner: bentoml-team
+  project: document-processing
+include:
+  - '*.py'
+  - '/tests'
+  - 'pyproject.toml'
+  - '/config'
+  - '/dit'
+  - '/samples'
+python:
+  requirements_txt: requirements/tests.txt
+docker:
+  system_packages:
+    - git
+    - tesseract-ocr
+    - libtesseract-dev
+    - poppler-utils
+  dockerfile_template: ./Dockerfile.template
+  env:
+    BENTOML_CONFIG: ./config/default.yaml

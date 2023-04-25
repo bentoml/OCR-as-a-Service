@@ -1,0 +1,14 @@
+version: 1
+api_server:
+  workers: 6
+  grpc:
+    reflection:
+      enabled: true
+runners:
+  logging:
+    access:
+      enabled: false
+  summarizer-pipeline:
+    resources: system
+  categorizer-pipeline:
+    resources: system

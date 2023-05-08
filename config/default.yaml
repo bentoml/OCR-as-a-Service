@@ -8,7 +8,7 @@ runners:
   logging:
     access:
       enabled: false
-  summarizer-pipeline:
+  dit-predictor:
     resources: system
-  categorizer-pipeline:
+  en-reader:
     resources: system

@@ -37,6 +37,7 @@ async def preprocess(im: PIL.Image.Image, res: list[str], threshold: float = 0.8
     async def _proc_cls_scores(
         cls: int, score: float, box: torch.Tensor, im: PIL.Image.Image
     ):
+        # 4 table
         if cls != 4 and score >= threshold:
             join_char = "" if cls == 0 else " "
             text = join_char.join(
@@ -62,9 +63,7 @@ async def preprocess(im: PIL.Image.Image, res: list[str], threshold: float = 0.8
     )
 
 
-@svc.api(
-    input=bentoml.io.File(mime_type="multipart/form-data"), output=bentoml.io.JSON()
-)
+@svc.api(input=bentoml.io.File(mime_type="application/pdf"), output=bentoml.io.JSON())
 async def image_to_text(file: io.BytesIO) -> dict[t.Literal["parsed"], str]:
     res = []
     with file:

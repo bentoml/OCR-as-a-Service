@@ -2,7 +2,8 @@
 git+https://github.com/bentoml/bentoml.git
 torch>=2.0
 easyocr
-git+https://github.com/facebookresearch/detectron2.git
+# This needs to be installed separately as it is dependant on python
+# git+https://github.com/facebookresearch/detectron2.git 
 timm
 fvcore
 pdf2image

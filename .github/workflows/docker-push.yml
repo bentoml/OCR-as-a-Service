@@ -1,0 +1,65 @@
+name: push-docker-prebuilt
+on:
+  push:
+    branches: ['main']
+  pull_request:
+env:
+  LINES: 120
+  COLUMNS: 120
+  PYTEST_PLUGINS: bentoml.testing.pytest.plugin
+  SETUPTOOLS_USE_DISTUTILS: stdlib
+  BENTOML_BUNDLE_LOCAL_BUILD: True
+  REGISTRY: ghcr.io
+# https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#defaultsrun
+defaults:
+  run:
+    shell: bash --noprofile --norc -exo pipefail {0}
+concurrency:
+  group: docker-build-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+jobs:
+  build-containerize-push:
+    strategy:
+      fail-fast: false
+      matrix:
+        tag: [cpu, gpu]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # fetch all tags and branches
+      - name: Setup CI
+        uses: ./.github/actions/setup-repo
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
+      - id: repository
+        uses: ASzc/change-string-case-action@v5
+        with:
+          string: ${{ github.repository }}
+      - name: Build and containerize
+        run: |
+          if [ "${{ matrix.tag }}" == 'gpu' ]; then
+            BENTOFILE='bentofile.gpu.yaml'
+            TAG="$(basename ${{ steps.repository.outputs.lowercase }})-gpu"
+          else
+            BENTOFILE='bentofile.yaml'
+            TAG="$(basename ${{ steps.repository.outputs.lowercase }})"
+          fi
+
+          bentoml build -f "${BENTOFILE}" && bentoml containerize "$TAG" --opt progress=plain --image-tag ${{ env.REGISTRY }}/${{ steps.repository.outputs.lowercase }}:${{ matrix.tag }}
+      - name: Check available images
+        run: docker image list
+      - name: Log in to the Container registry
+        uses: docker/login-action@40891eba8c2bcd1309b07ba8b11232f313e86779
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push image to Github Container registry
+        if: '!github.event.repository.fork' # No need to run this actions on fork
+        # if: ${{ !github.event.repository.fork && github.event_name == 'push' }} # No need to run this actions on fork
+        run: docker push ${{ env.REGISTRY }}/${{ steps.repository.outputs.lowercase }}:${{ matrix.tag }}

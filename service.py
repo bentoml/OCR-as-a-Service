@@ -56,7 +56,6 @@ async def preprocess(im: PIL.Image.Image, res: list[str], threshold: float = 0.8
                 print("Extract text:", text)
                 res.append(text)
 
-    print("ye")
     classes, scores, boxes = await segmentation(im)
 
     return await asyncio.gather(
@@ -67,9 +66,7 @@ async def preprocess(im: PIL.Image.Image, res: list[str], threshold: float = 0.8
     )
 
 
-@svc.api(
-    input=bentoml.io.File(mime_type="application/pdf"), output=bentoml.io.JSON()
-)
+@svc.api(input=bentoml.io.File(mime_type="application/pdf"), output=bentoml.io.JSON())
 async def image_to_text(file: io.BytesIO) -> dict[t.Literal["parsed"], str]:
     res = []
     with file:

@@ -1,8 +1,8 @@
 service: 'service.py:svc'
-name: document-processing-gpu
+name: ocr-as-a-service-gpu
 labels:
   owner: bentoml-team
-  project: document-processing
+  project: ocr-as-a-service
 include:
   - '*.py'
   - '/tests'

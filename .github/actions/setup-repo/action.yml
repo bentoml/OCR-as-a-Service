@@ -42,4 +42,6 @@ runs:
           ${{ steps.get-cache-key-prefix.outputs.prefix }}-pypi-
     - name: Install dependencies
       shell: bash
-      run: pip install -r requirements/tests.txt
+      run: | 
+        pip install -r requirements/tests.txt
+        pip install 'git+https://github.com/facebookresearch/detectron2.git'

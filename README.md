@@ -20,10 +20,10 @@ To run the service, you'll need a container engine such as Docker, Podman, etc. 
 
 ```bash
 # cpu
-docker run -p 3000:3000 ghcr.io/bentoml/ocr-as-s-service:cpu
+docker run -p 3000:3000 ghcr.io/bentoml/ocr-as-a-service:cpu
 
 # gpu
-docker run --gpus all -p 3000:3000 ghcr.io/bentoml/ocr-as-s-service:gpu
+docker run --gpus all -p 3000:3000 ghcr.io/bentoml/ocr-as-a-service:gpu
 ```
 
 ### BentoML CLI
@@ -31,8 +31,7 @@ docker run --gpus all -p 3000:3000 ghcr.io/bentoml/ocr-as-s-service:gpu
 ---
 #### **Prerequisite 📋**
 #### ✅ Python
-This project requires Python 3.8 or higher, but below 3.11.
-
+This project requires Python 3.8 or higher.
 #### ✅ Poppler, to convert pdf to image
 On MacOS, make sure to install poppler to use `pdf2image`:
 ```bash
@@ -44,14 +43,16 @@ On Linux distros, install `pdftoppm` and `pdftocairo` using your package manager
 sudo apt install poppler-utils
 ```
 
-#### ✅ Python Development Package
-To build the Detectron2 wheel, `python3-dev` package is required:
+#### ✅ Python Development Package 
+To build the Detectron2 wheel, `python3-dev` package is required. On Linux distros, run the following:
 ```bash
 sudo apt install python3-dev
 ```
 > You may need to install a specific version of python3-dev, e.g., `python3.10-dev` for Python 3.10.
 
-For MacOS, no need to do anything.
+For MacOS, Python Development Package is installed by default.
+
+Refer to [Detectron2 installation page](https://detectron2.readthedocs.io/en/latest/tutorials/install.html) for platform specific instructions and further troubleshootings.
 
 ---
 Once you have all prerequisite installed, clone the repository and install the dependencies:

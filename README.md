@@ -8,7 +8,7 @@
 <br>
 
 ## 📖 Introduction 📖
-This project demonstrates how to effortlessly serve an OCR model using BentoML. It accepts PDFs as input and returns the text contained within. The service employs Facebook's  [detectron2](https://github.com/facebookresearch/detectron2) for image segmentation and [EasyOCR](https://github.com/JaidedAI/EasyOCR) for OCR tasks.  
+This project demonstrates how to effortlessly serve an OCR model using BentoML. It accepts PDFs as input and returns the text contained within. The service employs [Microsoft's DiT](https://github.com/microsoft/unilm/tree/master/dit) using [Meta's detectron2](https://github.com/facebookresearch/detectron2) for image segmentation and [EasyOCR](https://github.com/JaidedAI/EasyOCR) for OCR.  
 
 ![Architecture](images/architecture.png)
 

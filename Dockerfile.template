@@ -2,5 +2,6 @@
 {% block SETUP_BENTO_COMPONENTS %}
 LABEL org.opencontainers.image.source="https://github.com/bentoml/OCR-as-a-Service"
 {{ super() }}
+# Detectron2 Build depends on Pytorch, hence we need to install it after the base requirements
 RUN pip install 'git+https://github.com/facebookresearch/detectron2.git'
 {% endblock %}

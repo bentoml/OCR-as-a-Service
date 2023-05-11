@@ -116,13 +116,34 @@ async def process_im(
         ]
     )
 
+reader = easyocr.Reader(["en"])
+cfg = dit.get_cfg()
+predictor = dit.get_predictor(cfg)
+
+def download_models() -> tuple[bentoml.Model, bentoml.Model]:
+    tag = "en-reader"
+    try:
+        reader_model = bentoml.easyocr.get(tag)
+        print(f"'{tag}' is previously saved: {reader_model}")
+    except bentoml.exceptions.NotFound:
+        reader_model = bentoml.easyocr.save_model(tag, reader)
+        print(f"'{tag}' is saved: {reader_model}")
+
+    tag = "dit-predictor"
+    try:
+        predictor_model = bentoml.detectron.get(tag)
+        print(f"'{tag}' is previously saved: {predictor_model}")
+    except bentoml.exceptions.NotFound:
+        predictor_model = bentoml.detectron.save_model(tag, predictor)
+        print(f"'{tag}' is saved: {predictor_model}")
+
+    return reader_model, predictor_model
+
 
 @torch.inference_mode()
 async def main(threshold: float = 0.8, analyze: bool = False):
     # TODO: support EOL token.
-    reader = easyocr.Reader(["en"])
-    cfg = dit.get_cfg()
-    predictor = dit.get_predictor(cfg)
+    _ = download_models()
 
     if analyze:
         intro = (
@@ -142,22 +163,6 @@ async def main(threshold: float = 0.8, analyze: bool = False):
         print("results:", res)
         print("Finished processing all pages.")
         print("=" * 30)
-
-    tag = "en-reader"
-    try:
-        reader_model = bentoml.easyocr.get(tag)
-        print(f"'{tag}' is previously saved: {reader_model}")
-    except bentoml.exceptions.NotFound:
-        reader_model = bentoml.easyocr.save_model(tag, reader)
-        print(f"'{tag}' is saved: {reader_model}")
-
-    tag = "dit-predictor"
-    try:
-        predictor_model = bentoml.detectron.get(tag)
-        print(f"'{tag}' is previously saved: {predictor_model}")
-    except bentoml.exceptions.NotFound:
-        predictor_model = bentoml.detectron.save_model(tag, predictor)
-        print(f"'{tag}' is saved: {predictor_model}")
 
     return 0
 

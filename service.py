@@ -10,16 +10,19 @@ import torch
 
 import bentoml
 from warmup import convert_pdf_to_images
+from warmup import download_models
 
 if t.TYPE_CHECKING:
     import PIL.Image
     from detectron2.structures import Boxes
     from detectron2.structures import Instances
 
-THRESHOLD = float(os.getenv("OCR_THRESHOLD", 0.8))
+# Download Model
+reader_model, predictor_model = download_models()
+en_reader = reader_model.to_runner()
+processor = predictor_model.to_runner()
 
-processor = bentoml.detectron.get("dit-predictor").to_runner()
-en_reader = bentoml.easyocr.get("en-reader").to_runner()
+THRESHOLD = float(os.getenv("OCR_THRESHOLD", 0.8))
 
 svc = bentoml.Service(name="document-processing", runners=[en_reader, processor])
 

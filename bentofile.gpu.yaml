@@ -1,5 +1,5 @@
 service: 'service.py:svc'
-name: ocr-as-a-service
+name: ocr-as-a-service-gpu
 labels:
   owner: bentoml-team
   project: ocr-as-a-service
@@ -13,6 +13,7 @@ include:
 python:
   requirements_txt: requirements/tests.txt
 docker:
+  cuda_version: 11.6
   system_packages:
     - git
     - tesseract-ocr

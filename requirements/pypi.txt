@@ -1,8 +1,11 @@
 # Install bentoml from main atm because there is a serve bug for gRPC
 git+https://github.com/bentoml/bentoml.git
 torch>=2.0
-easyocr
-git+https://github.com/facebookresearch/detectron2.git
+# To make it work on python 3.11, fix  from upstream is not released to pypi yet
+# https://github.com/JaidedAI/EasyOCR/commit/5c68ae4b3f273500dbcfeb06832415d8704020d1
+git+https://github.com/JaidedAI/EasyOCR.git
+# This needs to be installed separately as it is dependant on pytorch
+# git+https://github.com/facebookresearch/detectron2.git 
 timm
 fvcore
 pdf2image

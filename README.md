@@ -1,7 +1,7 @@
 <div align="center">
     <h1 align="center">OCR as a Service</h1>
     <br>
-    <strong>An efficient solution for converting PDFs into text<br></strong>
+    <strong>Turn any OCR models into online inference API endpoint 🚀<br></strong>
     <i>Powered by BentoML 🍱</i>
     <br>
 </div>

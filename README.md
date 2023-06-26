@@ -92,8 +92,31 @@ You can use Swagger UI to quickly explore the available endpoints of any BentoML
 ![Swagger UI](images/swagger.png)
 
 
-## 🚀 Bringing it to Production 🚀
-BentoML offers a number of options for deploying and hosting online ML services into production, learn more at [Deploying Bento Docs](https://docs.bentoml.org/en/latest/concepts/deploy.html).
+## 🚀 Deploying to Production 🚀
+Effortlessly transition your project into a production-ready application using [BentoCloud](https://www.bentoml.com/bento-cloud/), the production-ready platform for managing and deploying machine learning models.
+
+Start by creating a BentoCloud account. Once you've signed up, log in to your BentoCloud account using the command:
+
+```bash
+bentoml cloud login --api-token <your-api-token> --endpoint <bento-cloud-endpoint>
+```
+> Note: Replace `<your-api-token>` and `<bento-cloud-endpoint>` with your specific API token and the BentoCloud endpoint respectively.
+
+Next, build your BentoML service using the `build` command:
+
+```bash
+bentoml build
+```
+
+Then, push your freshly-built Bento service to BentoCloud using the `push` command:
+
+```bash
+bentoml push <name:version>
+```
+
+Lastly, deploy this application to BentoCloud with a single `bentoml deployment create` command following the [deployment instructions](https://docs.bentoml.org/en/latest/reference/cli.html#bentoml-deployment-create).
+
+BentoML offers a number of options for deploying and hosting online ML services into production, learn more at [Deploying a Bento](https://docs.bentoml.org/en/latest/concepts/deploy.html).
 
 ## 👥 Community 👥
 BentoML has a thriving open source community where thousands of ML/AI practitioners are 
